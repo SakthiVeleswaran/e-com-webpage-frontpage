@@ -14,12 +14,12 @@
       --muted:     #888c8c;
       --bg:        #f3f3f3;
       --white:     #ffffff;
-      --primary:   #e8901b;
+      --primary:   #fd9103;
       --primary-d: #c77b0f;
       --navy:      #131921;
-      --teal:      #007185;
+      --teal:      #0a4b57;
       --teal-d:    #005f6b;
-      --warn:      #cc0c39;
+      --warn:      #ee053b;
       --radius:    6px;
       --shadow:    0 2px 8px rgba(0,0,0,.12);
       --shadow-lg: 0 6px 24px rgba(0,0,0,.15);
@@ -112,7 +112,7 @@
       white-space: nowrap;
     }
     .haction span { color: #ccc; display: block; font-size: .68rem; }
-    .haction:hover { border-color: var(--white); }
+    .haction:hover { border-color: var(--bgwhite); }
 
     .cart-btn {
       display: flex; align-items: flex-end; gap: 4px;
@@ -272,10 +272,11 @@
       color: var(--teal);
       line-height: 1.4;
       margin-bottom: 6px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    display: -webkit-box;
+-webkit-line-clamp: 2;       /* Safari, older Chrome/Edge */
+-webkit-box-orient: vertical;
+line-clamp: 2;               /* Standard property (modern browsers) */
+overflow: hidden;
     }
 
     .stars { color: var(--primary); font-size: .75rem; margin-bottom: 4px; }
@@ -685,7 +686,7 @@
       <button class="signin-btn" onclick="handleLogin()">Sign In</button>
 
       <div class="terms">
-        By signing in you agree to ShopNest's
+        By signing in you agree to ShopMe's
         <a href="#">Conditions of Use</a> and
         <a href="#">Privacy Policy</a>.
       </div>
