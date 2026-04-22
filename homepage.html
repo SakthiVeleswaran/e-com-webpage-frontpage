@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopNest – Find Everything</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0f1111;
+      --mid:       #565959;
+      --muted:     #888c8c;
+      --bg:        #f3f3f3;
+      --white:     #ffffff;
+      --primary:   #e8901b;
+      --primary-d: #c77b0f;
+      --navy:      #131921;
+      --teal:      #007185;
+      --teal-d:    #005f6b;
+      --warn:      #cc0c39;
+      --radius:    6px;
+      --shadow:    0 2px 8px rgba(0,0,0,.12);
+      --shadow-lg: 0 6px 24px rgba(0,0,0,.15);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .header-main {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 20px;
+      max-width: 1400px; margin: 0 auto;
+    }
+
+    .logo {
+      font-family: 'Bitter', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--white);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .logo span { color: var(--primary); }
+
+    .deliver-box {
+      color: #ccc;
+      font-size: .72rem;
+      line-height: 1.4;
+      padding: 4px 8px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .deliver-box:hover { border-color: var(--white); }
+    .deliver-box strong { color: var(--white); font-size: .8rem; display: block; }
+
+    .search-bar {
+      flex: 1;
+      display: flex;
+      border-radius: var(--radius);
+      overflow: hidden;
+      height: 40px;
+    }
+    .search-select {
+      background: #e0e0e0;
+      border: none; outline: none;
+      padding: 0 10px;
+      font-size: .78rem;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .search-input {
+      flex: 1;
+      border: none; outline: none;
+      padding: 0 12px;
+      font-size: .9rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .search-btn {
+      background: var(--primary);
+      border: none; cursor: pointer;
+      padding: 0 14px;
+      font-size: 1.1rem;
+      transition: background .2s;
+    }
+    .search-btn:hover { background: var(--primary-d); }
+
+    .header-actions {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .haction {
+      color: var(--white);
+      text-decoration: none;
+      font-size: .78rem;
+      padding: 6px 10px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      line-height: 1.4;
+      transition: border-color .2s;
+      white-space: nowrap;
+    }
+    .haction span { color: #ccc; display: block; font-size: .68rem; }
+    .haction:hover { border-color: var(--white); }
+
+    .cart-btn {
+      display: flex; align-items: flex-end; gap: 4px;
+      position: relative;
+    }
+    .cart-count {
+      position: absolute; top: 2px; left: 22px;
+      background: var(--primary);
+      color: var(--white);
+      font-size: .68rem; font-weight: 700;
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .header-sub {
+      background: #232f3e;
+      padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px;
+      overflow-x: auto;
+    }
+    .sub-link {
+      color: var(--white);
+      font-size: .8rem;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      white-space: nowrap;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: border-color .2s;
+    }
+    .sub-link:hover { border-color: var(--white); }
+    .sub-link.bold { font-weight: 600; }
+
+    /* ── HERO BANNER ── */
+    .hero {
+      background: linear-gradient(160deg, #1a2a3a 0%, #0d1b2a 60%, #131921 100%);
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 560px; margin: 0 auto; position: relative; }
+    .hero h1 {
+      font-family: 'Bitter', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .hero h1 em { color: var(--primary); font-style: normal; }
+    .hero p {
+      color: #adb5bd;
+      font-size: 1rem;
+      margin-bottom: 28px;
+    }
+    .hero-cta {
+      display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 600;
+      border: none; cursor: pointer;
+      padding: 12px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--primary-d); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.4);
+      cursor: pointer;
+      padding: 12px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.06); }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrap {
+      max-width: 1400px; margin: 0 auto;
+      padding: 28px 20px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ── PRODUCT GRID ── */
+    .section-title {
+      font-family: 'Bitter', serif;
+      font-size: 1.3rem; font-weight: 700;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1; height: 2px;
+      background: linear-gradient(90deg, #ddd, transparent);
+    }
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+
+    .badge {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--warn);
+      color: var(--white);
+      font-size: .65rem; font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    .product-img {
+      width: 100%; aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #f7f7f7;
+      margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+
+    .product-name {
+      font-size: .85rem; font-weight: 500;
+      color: var(--teal);
+      line-height: 1.4;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .stars { color: var(--primary); font-size: .75rem; margin-bottom: 4px; }
+    .review-count { color: var(--teal); font-size: .75rem; }
+
+    .price-row { margin: 8px 0 12px; }
+    .price-now { font-size: 1.1rem; font-weight: 700; }
+    .price-mrp {
+      font-size: .78rem; color: var(--mid);
+      text-decoration: line-through; margin-left: 4px;
+    }
+    .discount { color: var(--warn); font-size: .78rem; font-weight: 600; margin-left: 4px; }
+
+    .add-btn {
+      width: 100%;
+      background: var(--primary);
+      border: none; cursor: pointer;
+      padding: 8px;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      color: var(--white);
+      transition: background .2s;
+    }
+    .add-btn:hover { background: var(--primary-d); }
+
+    /* Categories row */
+    .cat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .cat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .cat-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .cat-icon { font-size: 2rem; margin-bottom: 8px; }
+    .cat-name { font-size: .82rem; font-weight: 600; color: var(--ink); }
+
+    /* ── LOGIN CARD ── */
+    .login-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      position: sticky; top: 80px;
+    }
+
+    .login-card h2 {
+      font-family: 'Bitter', serif;
+      font-size: 1.4rem; font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: .82rem; font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .form-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #ccc;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,113,133,.12);
+    }
+
+    .pass-wrapper { position: relative; }
+    .pass-toggle {
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer; font-size: .8rem;
+      color: var(--teal); font-weight: 600;
+    }
+
+    .forgot-link {
+      display: block; text-align: right;
+      font-size: .78rem; color: var(--teal);
+      text-decoration: none; margin-top: -10px; margin-bottom: 16px;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .signin-btn {
+      width: 100%;
+      background: var(--primary);
+      border: none; cursor: pointer;
+      padding: 11px;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem; font-weight: 600;
+      color: var(--white);
+      margin-bottom: 14px;
+      transition: background .2s;
+    }
+    .signin-btn:hover { background: var(--primary-d); }
+
+    .or-divider {
+      display: flex; align-items: center; gap: 8px;
+      margin: 16px 0;
+      color: var(--muted); font-size: .78rem;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px; background: #e0e0e0;
+    }
+
+    .google-btn {
+      width: 100%;
+      background: var(--white);
+      border: 1.5px solid #ddd;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem; font-weight: 500;
+      color: var(--ink);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s, border-color .2s;
+      margin-bottom: 8px;
+    }
+    .google-btn:hover { background: #f8f8f8; border-color: #bbb; }
+
+    .terms {
+      font-size: .72rem; color: var(--muted);
+      text-align: center; margin: 16px 0;
+      line-height: 1.6;
+    }
+    .terms a { color: var(--teal); text-decoration: none; }
+    .terms a:hover { text-decoration: underline; }
+
+    .divider { border: none; border-top: 1px solid #e8e8e8; margin: 16px 0; }
+
+    .new-account {
+      font-size: .82rem; color: var(--ink);
+      text-align: center;
+    }
+    .new-account a {
+      color: var(--teal); font-weight: 600;
+      text-decoration: none;
+    }
+    .new-account a:hover { text-decoration: underline; }
+
+    /* ── PROMO BANNER ── */
+    .promo-banner {
+      background: linear-gradient(135deg, #131921 0%, #1e3a5f 100%);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .promo-text h3 {
+      font-family: 'Bitter', serif;
+      font-size: 1.2rem; margin-bottom: 6px;
+    }
+    .promo-text p { font-size: .85rem; color: #adb5bd; }
+    .promo-badge {
+      background: var(--primary);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.5rem;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: #adb5bd;
+      margin-top: 48px;
+      padding: 32px 20px 20px;
+      text-align: center;
+    }
+    .footer-links {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+      margin-bottom: 16px;
+    }
+    .footer-links a {
+      color: #adb5bd; font-size: .82rem; text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: .75rem; color: #666; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .login-card { position: static; order: -1; }
+    }
+    @media (max-width: 600px) {
+      .header-main { flex-wrap: wrap; }
+      .search-bar { order: 3; width: 100%; }
+      .deliver-box { display: none; }
+      .promo-banner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-main">
+    <a href="#" class="logo">Shop<span>Nest</span></a>
+
+    <div class="deliver-box">
+      <span>Deliver to</span>
+      <strong>📍 Chennai 600001</strong>
+    </div>
+
+    <div class="search-bar">
+      <select class="search-select">
+        <option>All</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Home</option>
+        <option>Books</option>
+      </select>
+      <input class="search-input" type="text" placeholder="Search products, brands and more…"/>
+      <button class="search-btn">🔍</button>
+    </div>
+
+    <div class="header-actions">
+      <a href="#" class="haction"><span>Hello, Sign in</span>Account &amp; Lists ▾</a>
+      <a href="#" class="haction"><span>Returns</span>&amp; Orders</a>
+      <a href="#" class="haction cart-btn">
+        <span class="cart-count">3</span>
+        🛒 Cart
+      </a>
+    </div>
+  </div>
+
+  <nav class="header-sub">
+    <a href="#" class="sub-link bold">☰ All</a>
+    <a href="#" class="sub-link">Today's Deals</a>
+    <a href="#" class="sub-link">Electronics</a>
+    <a href="#" class="sub-link">Fashion</a>
+    <a href="#" class="sub-link">Home &amp; Kitchen</a>
+    <a href="#" class="sub-link">Books</a>
+    <a href="#" class="sub-link">Sports</a>
+    <a href="#" class="sub-link">Prime</a>
+    <a href="#" class="sub-link">Gift Cards</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Everything You Need,<br/><em>Delivered Fast.</em></h1>
+    <p>Millions of products. Unbeatable prices. Free delivery on eligible orders.</p>
+    <div class="hero-cta">
+      <a href="#deals" class="btn-primary">Shop Today's Deals</a>
+      <a href="#login" class="btn-outline">Sign in for more</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div class="page-wrap">
+
+  <!-- LEFT / CENTER -->
+  <div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+      <div class="promo-text">
+        <h3>🎉 Great Indian Festival — Live Now!</h3>
+        <p>Bank offers, no-cost EMI and instant cashback available.</p>
+      </div>
+      <div class="promo-badge">Up to 80% OFF</div>
+    </div>
+
+    <!-- Categories -->
+    <div class="section-title">Shop by Category</div>
+    <div class="cat-row">
+      <div class="cat-card"><div class="cat-icon">📱</div><div class="cat-name">Electronics</div></div>
+      <div class="cat-card"><div class="cat-icon">👗</div><div class="cat-name">Fashion</div></div>
+      <div class="cat-card"><div class="cat-icon">🏠</div><div class="cat-name">Home &amp; Kitchen</div></div>
+      <div class="cat-card"><div class="cat-icon">📚</div><div class="cat-name">Books</div></div>
+      <div class="cat-card"><div class="cat-icon">⚽</div><div class="cat-name">Sports</div></div>
+      <div class="cat-card"><div class="cat-icon">💄</div><div class="cat-name">Beauty</div></div>
+      <div class="cat-card"><div class="cat-icon">🧸</div><div class="cat-name">Toys</div></div>
+      <div class="cat-card"><div class="cat-icon">🛠️</div><div class="cat-name">Tools</div></div>
+    </div>
+
+    <!-- Deals -->
+    <div class="section-title" id="deals">Today's Top Deals</div>
+    <div class="deals-grid">
+
+      <div class="product-card">
+        <div class="badge">-55%</div>
+        <div class="product-img">📱</div>
+        <div class="product-name">Samsung Galaxy A54 5G (8GB/128GB)</div>
+        <div class="stars">★★★★☆ <span class="review-count">(4,312)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹26,999</span>
+          <span class="price-mrp">₹59,999</span>
+          <span class="discount">55% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="badge">-40%</div>
+        <div class="product-img">🎧</div>
+        <div class="product-name">Sony WH-1000XM5 Noise Cancelling Headphones</div>
+        <div class="stars">★★★★★ <span class="review-count">(8,901)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹18,990</span>
+          <span class="price-mrp">₹31,990</span>
+          <span class="discount">40% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="badge">-62%</div>
+        <div class="product-img">💻</div>
+        <div class="product-name">HP 15s Laptop Intel Core i5 (16GB/512GB SSD)</div>
+        <div class="stars">★★★★☆ <span class="review-count">(2,450)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹44,990</span>
+          <span class="price-mrp">₹79,000</span>
+          <span class="discount">43% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">👟</div>
+        <div class="product-name">Nike Air Zoom Pegasus 40 Running Shoes</div>
+        <div class="stars">★★★★★ <span class="review-count">(1,230)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹6,295</span>
+          <span class="price-mrp">₹8,995</span>
+          <span class="discount">30% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="badge">-35%</div>
+        <div class="product-img">📷</div>
+        <div class="product-name">Canon EOS 1500D 24.1MP DSLR Camera</div>
+        <div class="stars">★★★★☆ <span class="review-count">(3,780)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹29,490</span>
+          <span class="price-mrp">₹45,995</span>
+          <span class="discount">36% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🎮</div>
+        <div class="product-name">Sony PlayStation 5 Console (Disc Edition)</div>
+        <div class="stars">★★★★★ <span class="review-count">(12,004)</span></div>
+        <div class="price-row">
+          <span class="price-now">₹49,990</span>
+          <span class="price-mrp">₹54,990</span>
+          <span class="discount">9% off</span>
+        </div>
+        <button class="add-btn">Add to Cart</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT — LOGIN -->
+  <div id="login">
+    <div class="login-card">
+      <h2>Sign In</h2>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email or mobile number</label>
+        <input class="form-input" id="email" type="email" placeholder="Enter email or phone" autocomplete="email"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="pass-wrapper">
+          <input class="form-input" id="password" type="password" placeholder="Enter password"/>
+          <button class="pass-toggle" onclick="togglePass()">Show</button>
+        </div>
+      </div>
+
+      <a href="#" class="forgot-link">Forgot password?</a>
+
+      <button class="signin-btn" onclick="handleLogin()">Sign In</button>
+
+      <div class="terms">
+        By signing in you agree to ShopNest's
+        <a href="#">Conditions of Use</a> and
+        <a href="#">Privacy Policy</a>.
+      </div>
+
+      <div class="or-divider">or</div>
+
+      <button class="google-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+
+      <hr class="divider"/>
+
+      <div class="new-account">
+        New to ShopNest? <a href="#">Create your account</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#">About Us</a>
+    <a href="#">Careers</a>
+    <a href="#">Press Releases</a>
+    <a href="#">Investor Relations</a>
+    <a href="#">Advertise</a>
+    <a href="#">Help</a>
+    <a href="#">Sell on ShopNest</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms &amp; Conditions</a>
+  </div>
+  <div class="footer-copy">© 2026 ShopNest, Inc. or its affiliates. All rights reserved.</div>
+</footer>
+
+<script>
+  function togglePass() {
+    const inp = document.getElementById('password');
+    const btn = inp.nextElementSibling;
+    if (inp.type === 'password') {
+      inp.type = 'text'; btn.textContent = 'Hide';
+    } else {
+      inp.type = 'password'; btn.textContent = 'Show';
+    }
+  }
+
+  function handleLogin() {
+    const email = document.getElementById('email').value.trim();
+    const pass  = document.getElementById('password').value.trim();
+    if (!email || !pass) {
+      alert('Please enter both email and password.');
+      return;
+    }
+    alert(`Welcome back! Signing you in as ${email}…`);
+  }
+</script>
+</body>
+</html>
